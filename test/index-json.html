@@ -1,0 +1,108 @@
+<script id="page-manifest" type="text/html" data-css="/pages/casserole/css/style.css" data-js="/pages/casserole/javascripts/script.js"></script>
+
+<script id='tmpl-casserole' type='text/template'>
+<div class='wallpaper'>
+  <div class="row">
+    <div class="home">
+
+      <h1><%= title %></h1>
+
+      <div class="story-wrap">
+        <div class="story-social"></div>
+        <div class="story-intro">
+          <p>They‘re easy delicious and presentation-worthy no wonder casseroles are one of Canadians' favourite comfort foods. Few dishes are as versatile and you can make them ahead and reheat them later. So break out that family recipe and bring it to a potluck. Or try one of these, featuring the best of Canada’s coast-to-coast bounty.</p>
+          <div class="story-arrow">
+            <div class="story-chevron ir"></div>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+
+
+  <% _.forEach(recipes, function(recipe) { %>
+  <div class="recipe-wrapper">
+    <div class="visible-region">
+      <div class="<%= recipe.class_name %>">
+        <h1 class='title'><%= recipe.name %></h1>
+      </div>
+      <div class="recipe-content">
+
+        <div class="left">
+          <section class="credit">
+            <div class="author-details">
+              <div>
+                <img src="<%= recipe.author.image %>" alt="">
+                <div class='author'><%= recipe.author.name %></div>
+                <div class='location'><%= recipe.author.location %></div>
+              </div>
+            </div>
+            <p><%= recipe.author.bio %></p>
+
+            <dl>
+              <dt>Serves:</dt>
+              <dd><%= recipe.serves %></dd>
+              <dt>Prep Time:</dt>
+              <dd><%= recipe.prep_time %></dd>
+            </dl>
+          </section>
+
+          <section class='ingredients'>
+            <h1>Ingredients</h1>
+            <ul>
+            <% _.forEach(recipe.ingredients, function(ingredient) { %>
+              <li><%= ingredient %></li>
+            <% }) %>
+            </ul>
+          </section>
+
+        </div>
+
+
+        <div class="right">
+
+          <section class="equipment">
+            <h1>You will need</h1>
+            <ul>
+            <% _.forEach(recipe.equipment, function(item) { %>
+              <li><img src="<%= item.image %>" alt=""><%= item.name %></li>
+            <% }) %>
+            </ul>
+          </section>
+
+          <section class="instructions">
+            <h1>Instructions</h1>
+            <ol>
+              <% _.each(recipe.steps, function(step, key) { %>
+              <li>
+                <h2>Step <%= key + 1 %></h2>
+                <h3><%= step.name %></h3>
+                <ul>
+                  <% _.forEach(step.ingredients, function(ingredient) { %>
+                    <li><%= ingredient %></li>
+                  <% }); %>
+                </ul>
+                <%= step.instruction %>
+              </li>
+              <% }); %>
+            </ol>
+          </section>
+        </div>
+      </div>
+    </div>
+
+    <div class="close-wrap">
+      <a href="#" class="toggle-recipe">Make this dish</a>
+    </div>
+
+  </div>
+  <% }) %>
+
+  <div class="spacer"></div>
+</div>
+</script>
+
+
+<div id="catalog-page">
+</div> <!-- catalog page -->

@@ -1,0 +1,119 @@
+/**********************************************************************
+ *
+ * GRID GENERATORS
+ * - utility functions used to layout the grid
+ */
+
+ //
+// standard column definition
+//
+@mixin col($num, $col_width, $gutter_width)
+  border: 0px solid rgba(0,0,0,0)
+  border-right: $gutter_width solid rgba(0,0,0,0)
+  width: $col_width * $num
+
+  // float: left
+
+  -webkit-box-sizing: border-box
+  -moz-box-sizing: border-box
+  box-sizing: border-box
+  -moz-background-clip: padding-box !important
+  -webkit-background-clip: padding-box !important
+  background-clip: padding-box !important
+
+//
+// standard box-padding for a content area
+//
+@mixin box-padding($box-padding-px)
+  padding: $box-padding-px/2 $box-padding-px $box-padding-px $box-padding-px
+
+//
+// prefixes a number of columns as a lefthand margin
+//
+@mixin prefix($num, $col_width)
+  margin-left: $num * $col_width
+
+//
+// post-fixes a number of columns as a lefthand margin
+//
+@mixin suffix($num, $col_width)
+  margin-right: $num * $col_width
+
+//
+// column bleeds into the gutter
+//
+@mixin bleed
+  border-right: 0 !important
+
+.bleed
+  @include bleed
+
+
+//
+// creates the css classes used to layout the grid:
+// e.g. col_5, suffix_8, prefix_1, etc.
+//
+@mixin create-grid($columns, $column_width, $gutter_width)
+  @for $i from 1 through $columns
+    .col_#{$i}
+      @include col($i, $column_width, $gutter_width)
+    .prefix_#{$i}
+      @include prefix($i, $column_width)
+    .suffix_#{$i}
+      @include suffix($i, $column_width)
+
+
+/**********************************************************************
+ *
+ * CUSTOM CONTENT
+ * - gets inserted into each media element for responsiveness
+ */
+@mixin custom-content($box-padding-px, $spacer_width, $col_width, $gutter_width)
+  .box-padding-px
+    @include box-padding($box-padding-px)
+
+  .recipe-content
+    @include col(16, $col_width, $gutter_width)
+    @include bleed
+  .credit, .ingredients
+    float: left
+    @include col(6, $col_width, $gutter_width)
+    @include prefix(1, $col_width)
+  .equipment, .instructions
+    float: left
+    @include col(8, $col_width, $gutter_width)
+    @include suffix(1, $col_width)
+  .intro
+    @include col(6, $col_width, $gutter_width)
+
+/**********************************************************************
+ *
+ * MEDIA - < 1279px
+ *
+ */
+@media screen and (min-width: 0px) and (max-width: 1279px)
+  $columns: 16
+  $spacer_width: 16px
+  $gutter_width: 16px
+  $box-padding-px: $spacer_width * 2
+  $col_width: $spacer_width * 3 + $gutter_width
+
+  @include custom-content($box-padding-px, $spacer_width, $col_width, $gutter_width)
+  @include create-grid($columns, $col_width, $gutter_width)
+
+
+
+/**********************************************************************
+ *
+ * MEDIA - 1280+
+ *
+ */
+@media screen and (min-width: 1280px)
+  $columns: 16
+  $spacer_width: 20px
+  $gutter_width: 20px
+  $box-padding-px: $spacer_width * 2
+  $col_width: $spacer_width * 3 + $gutter_width
+
+  @include custom-content($box-padding-px, $spacer_width, $col_width, $gutter_width)
+  @include create-grid($columns, $col_width, $gutter_width)
