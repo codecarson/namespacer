@@ -5,7 +5,10 @@ require 'yaml'
 ########################################################
 #
 # Namespaces images and replaces references where found.
-# It won't namespace
+# It won't namespace images not found in the path, so if you're referencing
+# images outside of the main folder keep that in mind.
+#
+# Note: take a long time processing minified files!
 #
 # first argument is the prefix to use
 
@@ -72,6 +75,16 @@ Dir.glob(files_to_process).each do |input_file|
     puts "-- replacing #{match} --> #{replacement_hash[match]}"
     replacement_hash[match]
   end
+
+  ## TODO: add an option to accept an argument to namespace files not found inside
+  # path (e.g. referenced outside main folder)
+  # note: this code isn't fully working
+  #
+  # puts 'Images found, but not namespaced:'
+  # /(?<!\\\/)([^\\\/]+)(gif|jpg|png)/.match(file_content) do |match|
+  #   puts "-- #{match}"
+  # end
+
 
   # write to file
   File.open(input_file, "w") { |file| file.puts replacement }
