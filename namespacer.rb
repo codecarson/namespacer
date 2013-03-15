@@ -34,11 +34,12 @@ original_images = Dir.glob('**/*.{jpg,png,gif}')
 
 # strip path from the match pattern
 original_images = original_images.map do |img|
+  puts File.basename(img)
   File.basename(img)
 end
 
-# form a regex match pattern of all of the images
-images_match_pattern = Regexp.union(original_images)
+# form a regex match pattern of all of the images, ensuring it's not already namespaced
+images_match_pattern = Regexp.union(original_images.map { |img| /(?<!#{prefix})#{img}/ })
 
 
 
