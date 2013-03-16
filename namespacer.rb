@@ -85,9 +85,12 @@ Dir.glob(files_to_process).each do |input_file|
     new_string = match
 
     puts "-- #{match}"
-    unless match =~ Regexp.new("#{prefix}|#{alt_prefix}")
-      puts "-- #{match} --> #{alt_prefix}-#{match}"
-      new_string = "#{alt_prefix}-#{match}"
+
+    unless alt_prefix.empty?
+      unless match =~ Regexp.new("#{prefix}|#{alt_prefix}")
+        puts "-- #{match} --> #{alt_prefix}-#{match}"
+        new_string = "#{alt_prefix}-#{match}"
+      end
     end
 
     new_string
