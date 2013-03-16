@@ -84,13 +84,14 @@ Dir.glob(files_to_process).each do |input_file|
   replacement = replacement.gsub(/(?<!\\\/)([^\\\/]+)(gif|jpg|png)/) do |match|
     new_string = match
 
-    puts "-- #{match}"
-
-    unless alt_prefix.empty?
-      unless match =~ Regexp.new("#{prefix}|#{alt_prefix}")
+    # ignore match if it has one of our prefixes
+    prefixes = [prefix, alt_prefix].reject {|x| x.empty?} .join('|')
+    unless match =~ Regexp.new("^#{prefixes}")
+      unless alt_prefix.empty?
         puts "-- #{match} --> #{alt_prefix}-#{match}"
         new_string = "#{alt_prefix}-#{match}"
       end
+      puts "-- #{match}"
     end
 
     new_string
