@@ -77,14 +77,21 @@ Dir.glob(files_to_process).each do |input_file|
     replacement_hash[match]
   end
 
-  ## TODO: add an option to accept an argument to namespace files not found inside
+  # TODO: add an option to accept an argument to namespace files not found inside
   # path (e.g. referenced outside main folder)
-  # note: this code isn't fully working
-  #
-  # puts 'Images found, but not namespaced:'
-  # /(?<!\\\/)([^\\\/]+)(gif|jpg|png)/.match(file_content) do |match|
-  #   puts "-- #{match}"
-  # end
+
+  puts 'Other images referenced:'
+  replacement = replacement.gsub(/(?<!\\\/)([^\\\/]+)(gif|jpg|png)/) do |match|
+    new_string = match
+
+    puts "-- #{match}"
+    unless match =~ Regexp.new("#{prefix}|OTHER-PREFIX")
+      puts "-- #{match} --> OTHER-PREFIX-#{match}"
+      new_string = "OTHER-PREFIX-#{match}"
+    end
+
+    new_string
+  end
 
 
   # write to file
