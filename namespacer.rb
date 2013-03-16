@@ -22,7 +22,7 @@ files_to_process = "**/*.{html,sass,css}"
 
 # grab the prefix
 prefix = ARGV.first || ""
-
+alt_prefix = ARGV[1] || ""   # alternate prefixing for images not found in path
 
 
 #####
@@ -85,9 +85,9 @@ Dir.glob(files_to_process).each do |input_file|
     new_string = match
 
     puts "-- #{match}"
-    unless match =~ Regexp.new("#{prefix}|OTHER-PREFIX")
-      puts "-- #{match} --> OTHER-PREFIX-#{match}"
-      new_string = "OTHER-PREFIX-#{match}"
+    unless match =~ Regexp.new("#{prefix}|#{alt_prefix}")
+      puts "-- #{match} --> #{alt_prefix}-#{match}"
+      new_string = "#{alt_prefix}-#{match}"
     end
 
     new_string
