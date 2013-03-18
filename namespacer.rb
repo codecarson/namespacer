@@ -8,9 +8,10 @@ require 'yaml'
 # It won't namespace images not found in the path, so if you're referencing
 # images outside of the main folder keep that in mind.
 #
-# Note: take a long time processing minified files!
+# Note: takes a long time processing minified files!
 #
 # first argument is the prefix to use
+# second argument is the alternate prefix to use
 
 # parse arguments
 
@@ -18,7 +19,7 @@ prefix = ""
 suffix = ""
 
 # GLOB pattern for files to process - cannot pass this pattern as an argument - doesn't work!
-files_to_process = "**/*.{html,sass,css}"
+files_to_process = "**/*.{html,sass,css,js}"
 
 # grab the prefix
 prefix = ARGV.first || ""
@@ -30,10 +31,10 @@ alt_prefix = ARGV[1] || ""   # alternate prefixing for images not found in path
 # Glob all images in path and subfolders.  We'll search for these images
 # inside the HTML file and if found, prefix them.
 #
-original_images = Dir.glob('**/*.{jpg,png,gif}')
+original_images_with_path = Dir.glob('**/*.{jpg,png,gif}')
 
 # strip path from the match pattern
-original_images = original_images.map do |img|
+original_images = original_images_with_path.map do |img|
   puts File.basename(img)
   File.basename(img)
 end
@@ -102,3 +103,15 @@ Dir.glob(files_to_process).each do |input_file|
   File.open(input_file, "w") { |file| file.puts replacement }
 end
 
+
+######################################################################
+#
+# Rename files
+#
+original_images_with_path.each do |old_file|
+  basename = File.basename(old_file)
+  new_file = old_file.gsub(basename, replacement_hash[basename])
+
+  puts "Renaming #{old_file} -> #{new_file}"
+  File.rename(old_file, new_file) unless old_file.include?(prefix)
+end
