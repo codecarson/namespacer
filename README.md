@@ -46,6 +46,7 @@ And any references to them in index.html, page.sass and page.css would be update
 ## TODO
 
 - Add options for file filters, include and exclude file types.
+- Add option to run in safe mode that will display what actions would be done without doing them.
 - Refactor the code. I did the bare minimum to make it a gem.
 - Write some tests.  I know, I know.
 
