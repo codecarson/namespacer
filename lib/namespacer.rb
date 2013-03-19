@@ -90,8 +90,8 @@ module Namespacer
         prefixes = [prefix, alt_prefix].reject {|x| x.nil? || x.empty?} .join('|')
         unless match =~ Regexp.new("^#{prefixes}")
           if alt_prefix && !alt_prefix.empty?
-            puts "-- #{match} --> #{alt_prefix}-#{match}"
-            new_string = "#{alt_prefix}-#{match}"
+            puts "-- #{match} --> #{alt_prefix}#{match}"
+            new_string = "#{alt_prefix}#{match}"
           end
           puts "-- #{match}"
         end
