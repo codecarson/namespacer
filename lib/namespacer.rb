@@ -113,8 +113,10 @@ module Namespacer
       basename = File.basename(old_file)
       new_file = old_file.gsub(basename, replacement_hash[basename])
 
-      puts "Renaming #{old_file} -> #{new_file}"
-      File.rename(old_file, new_file) unless old_file.include?(prefix)
+      unless old_file.include?(prefix)
+        puts "Renaming #{old_file} -> #{new_file}"
+        File.rename(old_file, new_file)
+      end
     end
 
   end
