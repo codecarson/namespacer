@@ -46,12 +46,7 @@ module Namespacer
       m
     end
 
-    puts "Replacement Hash: "
-    puts replacement_hash.to_yaml
-
     namespaced = original_images.map { |old_name| prefix + old_name }
-    puts "\n\rOriginal images: #{Regexp.union(namespaced)}"
-
 
 
     ######################################################################
@@ -59,7 +54,6 @@ module Namespacer
     # Loop through each file and replace the original image name with the
     # namespaced one.
     #
-    puts "\n\rImage match pattern: #{images_match_pattern}"
     puts "------------------------------------------------------------------"
 
     Dir.glob(files_to_process).each do |input_file|
