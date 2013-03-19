@@ -3,7 +3,7 @@ require 'yaml'
 
 module Namespacer
 
-  def self.prefix(prefix = "", alt_prefix)
+  def self.prefix(prefix = "", alt_prefix = "")
     ########################################################
     #
     # Namespaces images and replaces references where found.
@@ -87,9 +87,9 @@ module Namespacer
         new_string = match
 
         # ignore match if it has one of our prefixes
-        prefixes = [prefix, alt_prefix].reject {|x| x.empty?} .join('|')
+        prefixes = [prefix, alt_prefix].reject {|x| x.nil? || x.empty?} .join('|')
         unless match =~ Regexp.new("^#{prefixes}")
-          unless alt_prefix.empty?
+          if alt_prefix && !alt_prefix.empty?
             puts "-- #{match} --> #{alt_prefix}-#{match}"
             new_string = "#{alt_prefix}-#{match}"
           end
